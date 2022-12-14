@@ -32,7 +32,7 @@ rink_nodes.each.with_index do |node_array, nodes_index|
 end
 
 walker = Dijkstra::Walker.new
-walker.move(nodes[0], nodes[3])
+walker.move(nodes[0], nodes[6])
 route = walker.show_route
 
 route.each do |node|
