@@ -14,11 +14,14 @@ module Dijkstra
       @start_node = start_node
       @goal_node = goal_node
 
-      self.memorise(@start_node, @start_node, 0)
-      self.drawing(@start_node, @memo[@start_node])
-      self.analyse(@start_node, @map[@start_node])
+      self.memorise(@start_node, @start_node, 0) # 未確定コストをメモ
+      self.drawing(@start_node, @memo[@start_node]) # 確定したコストをメモ
+      self.analyse(@start_node, @map[@start_node]) # 引数のノードに隣接しているノード群に対してそれぞれの未確定コストをメモする
 
       while @map[@goal_node].nil?
+        # indeterminate_nodeは確定コストと未確定コストのハッシュを比べて
+        # 未確定のものを返す
+        # closest_nodeでコスト未確定のノード群からコストの一番小さいものを代入
         min_node = self.closest_node(self.indeterminate_node(@map, @memo))
         self.drawing(min_node, @memo[min_node])
         self.analyse(min_node, @map[min_node])
@@ -40,6 +43,7 @@ module Dijkstra
     end
 
     private
+
     def analyse(node, current_cost)
       node.links.each do |link|
         self.memorise(node, link.vnode, current_cost + link.cost)
@@ -52,7 +56,7 @@ module Dijkstra
         @nodes_relation[vnode] = unode
       end
     end
-    
+
     def drawing(node, cost)
       if @map[node].nil?
         @map[node] = cost
